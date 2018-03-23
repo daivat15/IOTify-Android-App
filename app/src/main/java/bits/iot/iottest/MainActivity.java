@@ -81,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
         new GetRequest().execute();
     }
 
+    public void onRefreshButtonClicked (View view) {
+        new GetRequest().execute();
+    }
+
     private class GetRequest extends AsyncTask<Void, String, Boolean>{
 
         private JSONObject jsonObject;
