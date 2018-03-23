@@ -1,13 +1,12 @@
 package bits.iot.iottest;
 
-import android.content.Entity;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.JsonWriter;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -25,7 +24,6 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -194,15 +192,17 @@ public class MainActivity extends AppCompatActivity {
                 HttpsURLConnection httpsURLConnection = (HttpsURLConnection) mUrl.openConnection();
                 httpsURLConnection.setDoOutput(true);
                 httpsURLConnection.setRequestMethod("PUT");
-                httpsURLConnection.setRequestProperty("Content-Type", "application/json");
+                httpsURLConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(httpsURLConnection.getOutputStream());
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("big_light", bigLightStatus);
-                jsonObject.put("small_light", smallLightStatus);
-                jsonObject.put("fan", fanStatus);
-                outputStreamWriter.write(jsonObject.toString());
-                outputStreamWriter.flush();
-                outputStreamWriter.close();
+                JsonWriter jsonWriter = new JsonWriter(outputStreamWriter);
+                jsonWriter.beginObject();
+                jsonWriter.name("big_light").value(bigLightStatus);
+                jsonWriter.name("small_light").value(smallLightStatus);
+                jsonWriter.name("fan").value(fanStatus);
+                jsonWriter.endObject();
+                jsonWriter.flush();
+                jsonWriter.close();
+                httpsURLConnection.getResponseCode();
                 return true;
             }  catch (MalformedURLException e1){
                 e1.printStackTrace();
@@ -214,10 +214,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e2){
                 publishProgress("Error while getting stream.");
                 e2.printStackTrace();
-                return false;
-            } catch (JSONException e3) {
-                publishProgress("Error writing JSON object.");
-                e3.printStackTrace();
                 return false;
             }
         }
@@ -231,8 +227,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean b) {
             progressBar.setVisibility(View.GONE);
             if (!b) {
-                //Toast.makeText(MainActivity.this, "Refreshing", Toast.LENGTH_SHORT).show();
-                //new GetRequest().execute();
+                Toast.makeText(MainActivity.this, "Error!\nRefreshing", Toast.LENGTH_SHORT).show();
+                new GetRequest().execute();
             }
         }
     }
