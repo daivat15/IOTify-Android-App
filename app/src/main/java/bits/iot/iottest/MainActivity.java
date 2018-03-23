@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject.put("small_light", smallLightStatus);
                 jsonObject.put("fan", fanStatus);
                 outputStreamWriter.write(jsonObject.toString());
+                outputStreamWriter.flush();
                 outputStreamWriter.close();
                 return true;
             }  catch (MalformedURLException e1){
