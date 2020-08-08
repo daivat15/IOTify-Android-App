@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Switch bigLightSwitch, smallLightSwitch, fanSwitch;
     private ProgressBar progressBar;
     private boolean bigLightStatus, smallLightStatus, fanStatus;
-    private final String url = "https://0zgjmounqj.execute-api.us-west-2.amazonaws.com/Beta/amzn1.ask.account.AFUIUTONGTKCILIFZHUQBF5GWGSMOO4Y7XJI7BTKUB76J7U4KA5Y6LSO5W6RZTKW7NAE4BCKLDOV4C6HMUHZQ42ABNU4GS2NMIRTV3T7KIUTY4HRSHZ5LVW3PKWGNNGNE4JYKPRASMF45RZXAX3SXJKVENUSWSZNH5QB7V3QGWEKTTTMPGEYXZU66KHDUXOKPDIZUGATXA4Q6PI";
+    private final String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
